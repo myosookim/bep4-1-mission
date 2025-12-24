@@ -16,6 +16,7 @@ import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
+@Table(name = "POST_POST")
 @NoArgsConstructor
 @Getter
 public class Post extends BaseIdAndTime {
