@@ -6,6 +6,8 @@ import com.back.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -15,8 +17,12 @@ public class MemberService {
         return memberRepository.count();
     }
 
+    public Optional<Member> findByUsername(String username) {
+        return memberRepository.findByUsername(username);
+    }
+
     public Member join(String username, String password, String nickname) {
-        memberRepository.findByUsername(username).ifPresent(m -> {
+        findByUsername(username).ifPresent(m -> {
             throw new DomainException("409-1", "이미 존재하는 username 입니다.");
         });
 
