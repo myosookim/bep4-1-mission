@@ -18,15 +18,17 @@ public class DataInit {
     private final MemberService memberService;
     private final PostService postService;
 
-    public DataInit(@Lazy DataInit self, MemberService memberService) {
+    public DataInit(@Lazy DataInit self, MemberService memberService, PostService postService) {
         this.self = self;
         this.memberService = memberService;
+        this.postService = postService;
     }
 
     @Bean
     public ApplicationRunner baseInitDataRunner() {
         return args -> {
             self.makeBaseMembers();
+            self.makeBasePosts();
         };
     }
 
