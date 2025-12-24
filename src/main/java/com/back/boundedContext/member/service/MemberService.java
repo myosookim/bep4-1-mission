@@ -21,6 +21,10 @@ public class MemberService {
         return memberRepository.findByUsername(username);
     }
 
+    public Optional<Member> findById(int id) {
+        return memberRepository.findById(id);
+    }
+
     public Member join(String username, String password, String nickname) {
         findByUsername(username).ifPresent(m -> {
             throw new DomainException("409-1", "이미 존재하는 username 입니다.");
