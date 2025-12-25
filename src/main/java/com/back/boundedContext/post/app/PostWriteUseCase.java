@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 public class PostWriteUseCase {
     private final PostRepository postRepository;
     private final EventPublisher eventPublisher;
-    // 결합도 해결 (memberFacade -> memberApiClient)
-    private final MemberFacade memberFacade;
     private final MemberApiClient memberApiClient;
 
 
