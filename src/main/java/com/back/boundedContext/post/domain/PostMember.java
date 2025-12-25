@@ -6,6 +6,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 // MSA 염두 설계
 // Post -> Member(N:1)의 의존성 방향을 낮추기 위함
 @Entity
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class PostMember extends ReplicaMember {
-    public PostMember(String username, String password, String nickname) {
-        super(username, password, nickname);
+    public PostMember(int id, LocalDateTime createDate, LocalDateTime modifyDate, String username, String password, String nickname) {
+        super(id, createDate, modifyDate, username, password, nickname);
     }
 }
