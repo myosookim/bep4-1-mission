@@ -15,13 +15,18 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PostFacade {
-    private final PostRepository postRepository;
-    private final PostMemberRepository postMemberRepository;
     private final PostWriteUseCase postWriteUseCase;
+    private final PostSupport postSupport;
+    private final PostSyncMemberUseCase postSyncMemberUseCase;
+
+    @Transactional
+    public PostMember syncMember(MemberDto member){
+        return postSyncMemberUseCase.syncMember(member);
+    }
 
     @Transactional(readOnly = true)
     public long count() {
-        return postRepository.count();
+        return postSupport.count();
     }
 
     @Transactional
@@ -31,25 +36,11 @@ public class PostFacade {
 
     @Transactional(readOnly = true)
     public Optional<Post> findById(int id) {
-        return postRepository.findById(id);
-    }
-
-    @Transactional
-    public PostMember syncMember(MemberDto member){
-        PostMember postMember = new PostMember(
-                member.getId(), member.getCreateDate(), member.getModifyDate(),
-                member.getUsername(),"", member.getNickname(), member.getActivityScore()
-        );
-
-        postMember.setId(member.getId());
-        postMember.setCreateDate(member.getCreateDate());
-        postMember.setModifyDate(member.getModifyDate());
-
-        return postMemberRepository.save(postMember);
+        return postSupport.findById(id);
     }
 
     @Transactional(readOnly = true)
     public Optional<PostMember> findPostMemberByUsername(String username) {
-        return postMemberRepository.findByUsername(username);
+        return postSupport.findMemberByUsername(username);
     }
 }
