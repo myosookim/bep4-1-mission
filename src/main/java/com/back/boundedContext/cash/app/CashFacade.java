@@ -2,6 +2,7 @@ package com.back.boundedContext.cash.app;
 
 import com.back.boundedContext.cash.domain.CashMember;
 import com.back.boundedContext.cash.domain.Wallet;
+import com.back.shared.cash.dto.CashMemberDto;
 import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,8 @@ public class CashFacade {
         return cashSyncMemberUseCase.syncMember(member);
     }
 
-    public Wallet createWallet(CashMember holder){
+    // Dto 추가에 따라 매개변수 CashMember->CashMembertDto 타입으로 변경
+    public Wallet createWallet(CashMemberDto holder){
         return cashCreateWalletUseCase.createWallet(holder);
     }
 
