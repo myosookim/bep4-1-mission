@@ -14,35 +14,26 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CashFacade {
-    private final CashMemberRepository cashMemberRepository;
-    private final WalletRepository walletRepository;
+    private final CashSupport cashSupport;
+    private final CashSyncMemberUseCase cashSyncMemberUseCase;
+    private final CashCreateWalletUseCase cashCreateWalletUseCase;
 
     @Transactional
     public CashMember syncMember(MemberDto member) {
-        CashMember _member = new CashMember(
-                member.getId(),
-                member.getCreateDate(),
-                member.getModifyDate(),
-                member.getUsername(),
-                "",
-                member.getNickname(),
-                member.getActivityScore()
-        );
-
-        return cashMemberRepository.save(_member);
+        return cashSyncMemberUseCase.syncMember(member);
     }
 
     public Wallet createWallet(CashMember holder){
         Wallet wallet = new Wallet(holder);
 
-        return walletRepository.save(wallet);
+        return cashCreateWalletUseCase.createWallet(holder);
     }
 
     public Optional<CashMember> findMemberByUsername(String username){
-        return cashMemberRepository.findByUsername(username);
+        return cashSupport.findMemberByUsername(username);
     }
 
     public Optional<Wallet> findWalletByHolder(CashMember holder){
-        return walletRepository.findByHolder(holder);
+        return cashSupport.findWalletByHolder(holder);
     }
 }
