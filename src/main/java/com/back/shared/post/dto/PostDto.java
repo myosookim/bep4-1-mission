@@ -1,12 +1,17 @@
 package com.back.shared.post.dto;
 
 import com.back.boundedContext.post.domain.Post;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
+// Lombok + Jackson을 함께 쓰기 위한 생성자 설정
+@AllArgsConstructor(
+        // AllArgsConstructor로 만든 생성자에 @JsonCreator를 닮
+        onConstructor_ = @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+)
 @Getter
 public class PostDto {
     private final int id;
