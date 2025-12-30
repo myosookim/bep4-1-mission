@@ -1,4 +1,4 @@
-package com.back.standard.ut;
+package com.back.standard.Ut;
 
 public class Util {
     // 반영
