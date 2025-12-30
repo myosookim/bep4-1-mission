@@ -15,20 +15,6 @@ public class MarketSyncMemberUseCase {
     private final MarketMemberRepository marketMemberRepository;
     private final EventPublisher eventPublisher;
 
-//    public MarketMember syncMember(MemberDto member) {
-//        MarketMember marketMember = new MarketMember(
-//                member.getId(),
-//                member.getCreateDate(),
-//                member.getModifyDate(),
-//                member.getUsername(),
-//                "",
-//                member.getNickname(),
-//                member.getActivityScore()
-//        );
-//
-//        return marketMemberRepository.save(marketMember);
-//    }
-
     public MarketMember syncMember(MemberDto member) {
         boolean isNew = !marketMemberRepository.existsById(member.getId());
 
@@ -47,7 +33,7 @@ public class MarketSyncMemberUseCase {
         if (isNew){
             eventPublisher.publish(
                     new MarketMemberCreatedEvent(
-                            new MarketMemberDto(_member)
+                            _member.toDto()
                     )
             );
         }

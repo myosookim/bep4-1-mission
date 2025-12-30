@@ -24,7 +24,7 @@ public class ApiV1PostController {
         return postFacade
                 .findByOrderByIdDesc()
                 .stream()
-                .map(PostDto::new)
+                .map(Post::toDto)
                 .toList();
     }
 
@@ -35,7 +35,7 @@ public class ApiV1PostController {
     ) {
         return postFacade
                 .findById(id)
-                .map(PostDto::new)
+                .map(Post::toDto)
                 .get();
     }
 }
