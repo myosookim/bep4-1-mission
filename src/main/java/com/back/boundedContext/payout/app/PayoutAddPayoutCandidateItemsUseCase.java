@@ -1,5 +1,9 @@
 package com.back.boundedContext.payout.app;
 
+import com.back.boundedContext.payout.domain.PayoutCandidateItem;
+import com.back.boundedContext.payout.domain.PayoutEventType;
+import com.back.boundedContext.payout.domain.PayoutMember;
+import com.back.boundedContext.payout.out.PayoutCandidateItemRepository;
 import com.back.shared.market.dto.OrderDto;
 import com.back.shared.market.dto.OrderItemDto;
 import com.back.shared.market.out.MarketApiClient;
@@ -7,19 +11,66 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PayoutAddPayoutCandidateItemsUseCase {
     private final MarketApiClient marketApiClient;
+    private final PayoutSupport payoutSupport;
+    private final PayoutCandidateItemRepository payoutCandidateItemRepository;
 
     public void addPayoutCandidateItems(OrderDto order) {
-        List<OrderItemDto> items = marketApiClient.getOrderItems(order.getId());
-
-        items.forEach(item -> {
-            log.debug("orderItem.id: {}", item.getId());
-        });
+        marketApiClient.getOrderItems(order.getId()).forEach(orderItem -> makePayoutCandidateItem(order, orderItem));
     }
+
+    private void makePayoutCandidateItem(OrderDto order, OrderItemDto orderItem) {
+        PayoutMember holding = payoutSupport.findHoldingMember().get();
+        PayoutMember buyer = payoutSupport.findMemberById(orderItem.getBuyerId()).get();
+        PayoutMember seller = payoutSupport.findMemberById(orderItem.getSellerId()).get();
+
+        makePayoutCandidateItem(
+                PayoutEventType.정산__상품판매_수수료,
+                orderItem.getModelTypeCode(),
+                orderItem.getId(),
+                order.getPaymentDate(),
+                buyer,
+                holding,
+                orderItem.getPayoutFee()
+        );
+
+        makePayoutCandidateItem(
+                PayoutEventType.정산__상품판매_대금,
+                orderItem.getModelTypeCode(),
+                orderItem.getId(),
+                order.getPaymentDate(),
+                buyer,
+                seller,
+                orderItem.getSalePriceWithoutFee()
+        );
+    }
+
+    // payout 입장에서 payer 는 item 입장에서 buyer. (동일하게 payee = seller)
+    private void makePayoutCandidateItem(PayoutEventType payoutEventType,
+                                         String relTypeCode,
+                                         int relid,
+                                         LocalDateTime paymentDate,
+                                         PayoutMember payer,
+                                         PayoutMember payee,
+                                         long amount) {
+        PayoutCandidateItem payoutCandidateItem = new PayoutCandidateItem(
+                payoutEventType,
+                relTypeCode,
+                relid,
+                paymentDate,
+                payer,
+                payee,
+                amount
+        );
+
+        payoutCandidateItemRepository.save(payoutCandidateItem);
+    }
+
+
 }
