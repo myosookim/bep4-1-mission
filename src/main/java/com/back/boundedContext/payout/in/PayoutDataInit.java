@@ -52,6 +52,7 @@ public class PayoutDataInit {
             self.forceMakePayoutReadyCandidatesItems();
             self.collectPayoutItemsMore();
             self.runCollectPayoutItemsBatchJob();
+            self.completePayoutsMore();
         };
     }
 

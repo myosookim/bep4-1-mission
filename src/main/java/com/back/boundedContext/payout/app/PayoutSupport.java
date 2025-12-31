@@ -20,11 +20,6 @@ public class PayoutSupport {
         return payoutMemberRepository.findByUsername("system");
     }
 
-    // 홀딩멤버는 username을 holding으로 두고 관리중
-    public Optional<PayoutMember> findHoldingMember(){
-        return payoutMemberRepository.findByUsername("holding");
-    }
-
     public Optional<PayoutMember> findMemberById(int id) {
         return payoutMemberRepository.findById(id);
     }
