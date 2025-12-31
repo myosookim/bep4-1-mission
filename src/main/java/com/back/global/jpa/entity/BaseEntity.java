@@ -1,18 +1,16 @@
 package com.back.global.jpa.entity;
 
 import com.back.global.global.GlobalConfig;
-import com.back.standard.modelType.CanGetModelTypeCode;
-import jakarta.persistence.EntityListeners;
+import com.back.standard.modelType.HasModelTypeCode;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @MappedSuperclass
 //@EntityListeners(AuditingEntityListener.class)
 @Getter
-public abstract class BaseEntity implements CanGetModelTypeCode {
+public abstract class BaseEntity implements HasModelTypeCode {
     public abstract int getId();
     public abstract LocalDateTime getCreateDate();
     public abstract LocalDateTime getModifyDate();
