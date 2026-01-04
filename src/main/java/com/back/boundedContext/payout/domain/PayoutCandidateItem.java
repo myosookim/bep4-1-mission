@@ -14,7 +14,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Table(name = "PAYOUT_PAYOUT_CANDIDATE_ITEM")
 @NoArgsConstructor
 @Getter
-public class PayoutCandidateItem extends BaseIdAndTime{
+public class PayoutCandidateItem extends BaseIdAndTime {
     @Enumerated(EnumType.STRING)
     private PayoutEventType eventType;
     String relTypeCode;
@@ -29,11 +29,11 @@ public class PayoutCandidateItem extends BaseIdAndTime{
     @Setter
     private PayoutItem payoutItem;
 
-    public PayoutCandidateItem(PayoutEventType eventType, String relTypeCode, int relId, LocalDateTime payDate, PayoutMember payer, PayoutMember payee, long amount) {
+    public PayoutCandidateItem(PayoutEventType eventType, String relTypeCode, int relId, LocalDateTime paymentDate, PayoutMember payer, PayoutMember payee, long amount) {
         this.eventType = eventType;
         this.relTypeCode = relTypeCode;
         this.relId = relId;
-        this.paymentDate = payDate;
+        this.paymentDate = paymentDate;
         this.payer = payer;
         this.payee = payee;
         this.amount = amount;

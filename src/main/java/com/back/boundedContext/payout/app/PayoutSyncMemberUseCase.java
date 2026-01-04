@@ -4,6 +4,7 @@ import com.back.boundedContext.payout.domain.PayoutMember;
 import com.back.boundedContext.payout.out.PayoutMemberRepository;
 import com.back.global.eventPublisher.EventPublisher;
 import com.back.shared.member.dto.MemberDto;
+import com.back.shared.payout.event.PayoutMemberCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class PayoutSyncMemberUseCase {
 
         if (isNew) {
             eventPublisher.publish(
-                    new com.back.shared.payout.event.PayoutMemberCreatedEvent(
+                    new PayoutMemberCreatedEvent(
                             _member.toDto()
                     )
             );

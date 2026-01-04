@@ -18,7 +18,8 @@ public class PayoutCompletePayoutsMoreUseCase {
         List<Payout> activePayouts = findActivePayouts(limit);
 
         if (activePayouts.isEmpty()){
-            return new RsData<>("200-1", "더 이상 정산할 정산내역이 없습니다.");
+            // RsData의 기본 data값은 null이므로, RsData 생성할 때는 data값에 0 꼭 넣어줘야 한다
+            return new RsData<>("200-1", "더 이상 정산할 정산내역이 없습니다.",0);
         }
 
         activePayouts.forEach(Payout::completePayout);

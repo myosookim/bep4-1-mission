@@ -50,6 +50,8 @@ public class CashDataInit {
 
         Wallet user2Wallet = cashFacade.findWalletByHolder(user2Member).get();
 
+        if (user2Wallet.hasBalance()) return;
+
         user2Wallet.credit(150_000, CashLog.EventType.충전__무통장입금);
     }
 }
