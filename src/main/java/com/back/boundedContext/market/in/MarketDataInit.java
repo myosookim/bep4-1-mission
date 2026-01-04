@@ -42,7 +42,7 @@ public class MarketDataInit {
 
     @Transactional
     public void makeBaseProducts(){
-        if (marketFacade.productCount() > 0) return;
+        if (marketFacade.productsCount() > 0) return;
 
         List<PostDto> posts = postApiClient.getItems();
 

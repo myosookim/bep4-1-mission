@@ -88,7 +88,7 @@ public class Order extends BaseIdAndTime {
     }
 
     public boolean isPaymentInProgress(){
-        return requestPaymentDate != null;
+        return requestPaymentDate != null && paymentDate == null && cancelDate == null;
     }
 
     public void requestPayment(long pgPaymentAmount){
